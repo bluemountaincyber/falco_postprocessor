@@ -1,0 +1,27 @@
+mode: set
+falco_postprocessor/falco_postprocessor.go:21.56,23.16 2 1
+falco_postprocessor/falco_postprocessor.go:23.16,25.3 1 1
+falco_postprocessor/falco_postprocessor.go:27.2,29.32 3 1
+falco_postprocessor/falco_postprocessor.go:29.32,31.3 1 1
+falco_postprocessor/falco_postprocessor.go:32.2,34.6 2 1
+falco_postprocessor/falco_postprocessor.go:34.6,36.40 2 1
+falco_postprocessor/falco_postprocessor.go:36.40,37.9 1 1
+falco_postprocessor/falco_postprocessor.go:38.9,42.4 3 1
+falco_postprocessor/falco_postprocessor.go:45.2,45.28 1 1
+falco_postprocessor/falco_postprocessor.go:48.42,49.38 1 1
+falco_postprocessor/falco_postprocessor.go:49.38,51.17 2 1
+falco_postprocessor/falco_postprocessor.go:51.17,53.4 1 1
+falco_postprocessor/falco_postprocessor.go:54.3,54.44 1 1
+falco_postprocessor/falco_postprocessor.go:56.2,57.12 2 1
+falco_postprocessor/falco_postprocessor.go:60.13,62.16 2 1
+falco_postprocessor/falco_postprocessor.go:62.16,65.3 2 0
+falco_postprocessor/falco_postprocessor.go:67.2,68.58 2 1
+falco_postprocessor/falco_postprocessor.go:68.58,71.3 2 0
+falco_postprocessor/falco_postprocessor.go:73.2,73.44 1 1
+falco_postprocessor/falco_postprocessor.go:73.44,76.3 2 0
+falco_postprocessor/falco_postprocessor.go:78.2,79.16 2 1
+falco_postprocessor/falco_postprocessor.go:79.16,82.3 2 0
+falco_postprocessor/falco_postprocessor.go:84.2,85.16 2 1
+falco_postprocessor/falco_postprocessor.go:85.16,88.3 2 0
+falco_postprocessor/falco_postprocessor.go:89.2,91.64 2 1
+falco_postprocessor/falco_postprocessor.go:91.64,94.3 2 0
