@@ -34,15 +34,7 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println(err)
 		}
-		azurelogsWorkspaceID, err := cmd.Flags().GetString("azurelogs-workspace-id")
-		if err != nil {
-			fmt.Println(err)
-		}
-		azurelogsWorkspaceKey, err := cmd.Flags().GetString("azurelogs-workspace-key")
-		if err != nil {
-			fmt.Println(err)
-		}
-		azurelogsTableName, err := cmd.Flags().GetString("azurelogs-table-name")
+		azurelogsDCRStreamUrl, err := cmd.Flags().GetString("azurelogs-dcr-stream-url")
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -54,8 +46,8 @@ var rootCmd = &cobra.Command{
 			fmt.Println("Error: awslogs-group, awslogs-stream, and awslogs-region are required when output is awslogs")
 			os.Exit(1)
 		}
-		if output == "azurelogs" && (azurelogsWorkspaceID == "" || azurelogsWorkspaceKey == "" || azurelogsTableName == "") {
-			fmt.Println("Error: azurelogs-workspace-id, azurelogs-workspace-key, and azurelogs-table-name are required when output is azurelogs")
+		if output == "azurelogs" && azurelogsDCRStreamUrl == "" {
+			fmt.Println("Error: azurelogs-dcr-stream-url is required when output is azurelogs")
 			os.Exit(1)
 		}
 	},
@@ -72,7 +64,5 @@ func init() {
 	rootCmd.Flags().StringP("awslogs-group", "g", "FalcoEvents", "The AWS CloudWatch Logs group")
 	rootCmd.Flags().StringP("awslogs-stream", "s", hostname, "The AWS CloudWatch Logs stream")
 	rootCmd.Flags().StringP("awslogs-region", "r", "us-east-1", "The AWS region")
-	rootCmd.Flags().StringP("azurelogs-workspace-id", "w", "", "The Azure Log Analytics workspace ID")
-	rootCmd.Flags().StringP("azurelogs-workspace-key", "k", "", "The Azure Log Analytics workspace key")
-	rootCmd.Flags().StringP("azurelogs-table-name", "t", "FalcoEvents_CL", "The Azure Log Analytics table name")
+	rootCmd.Flags().StringP("azurelogs-dcr-stream-url", "d", "", "The Azure Data Collection Stream URL")
 }

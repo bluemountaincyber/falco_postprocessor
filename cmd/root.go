@@ -72,6 +72,17 @@ func Execute() {
 			fmt.Fprintf(os.Stderr, "Error writing to CloudWatch: %v\n", err)
 			os.Exit(1)
 		}
+	case "azurelogs":
+		azurelogsDCRStreamUrl, err := rootCmd.Flags().GetString("azurelogs-dcr-stream-url")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error getting azurelogs-dcr-stream-url: %v\n", err)
+			os.Exit(1)
+		}
+		err = outputs.WriteToMonitor(output, azurelogsDCRStreamUrl)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error writing to Azure Monitor: %v\n", err)
+			os.Exit(1)
+		}
 	default:
 		outputs.WriteToStdOut(output)
 	}
