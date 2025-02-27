@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -17,45 +16,6 @@ type FalcoEvent struct {
 	OutputFields map[string]interface{} `json:"output_fields"`
 }
 
-func retrieveDNSQueryHost(data string) (string, error) {
-	payload, err := base64.StdEncoding.DecodeString(data)
-	if err != nil {
-		return "", err
-	}
-
-	var domain []byte
-	byteCounter := 13
-	if len(payload) < byteCounter {
-		return "", fmt.Errorf("invalid payload")
-	}
-	wordLen := int(payload[12])
-
-	for {
-		domain = append(domain, payload[byteCounter:byteCounter+wordLen]...)
-		if payload[byteCounter+wordLen] == 0 {
-			break
-		} else {
-			domain = append(domain, '.')
-			byteCounter += wordLen + 1
-			wordLen = int(payload[byteCounter-1])
-		}
-	}
-
-	return string(domain), nil
-}
-
-func processData(data *FalcoEvent) error {
-	if data.Rule == "DNS Query Logging" {
-		hostName, err := retrieveDNSQueryHost(data.OutputFields["evt.arg.data"].(string))
-		if err != nil {
-			return err
-		}
-		data.OutputFields["dns_query"] = hostName
-	}
-	delete(data.OutputFields, "evt.time")
-	return nil
-}
-
 func main() {
 	inputData, err := io.ReadAll(os.Stdin)
 	if err != nil {
@@ -69,7 +29,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := processData(&event); err != nil {
+	if err := processors.processData(&event); err != nil {
 		fmt.Fprintf(os.Stderr, "Error processing data: %v\n", err)
 		os.Exit(1)
 	}
