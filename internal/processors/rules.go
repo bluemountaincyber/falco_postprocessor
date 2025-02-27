@@ -1,33 +1,34 @@
-package main
+package processors
 
-import (
-	"encoding/base64"
-	"fmt"
-)
+type FalcoEvent struct {
+	Time         string                 `json:"time"`
+	HostName     string                 `json:"hostname"`
+	Rule         string                 `json:"rule"`
+	OutputFields map[string]interface{} `json:"output_fields"`
+}
 
-func retrieveDNSQueryHost(data string) (string, error) {
-	payload, err := base64.StdEncoding.DecodeString(data)
-	if err != nil {
-		return "", err
-	}
-
-	var domain []byte
-	byteCounter := 13
-	if len(payload) < byteCounter {
-		return "", fmt.Errorf("invalid payload")
-	}
-	wordLen := int(payload[12])
-
-	for {
-		domain = append(domain, payload[byteCounter:byteCounter+wordLen]...)
-		if payload[byteCounter+wordLen] == 0 {
-			break
-		} else {
-			domain = append(domain, '.')
-			byteCounter += wordLen + 1
-			wordLen = int(payload[byteCounter-1])
+// ProcessData processes the Falco event data and modifies the event data in place.
+//
+// The input to this function is a pointer to the FalcoEvent struct.
+//
+// An expected usage might be:
+//
+//	if err := ProcessData(&event); err != nil {
+func ProcessData(data *FalcoEvent) error {
+	if data.Rule == "DNS Query Logging" {
+		hostName, err := RetrieveDNSQueryHost(data.OutputFields["evt.arg.data"].(string))
+		if err != nil {
+			return err
 		}
+		data.OutputFields["dns_query"] = hostName
 	}
-
-	return string(domain), nil
+	if data.Rule == "Metadata Access" {
+		hostName, err := RetrieveMetadataAccessPath(data.OutputFields["evt.arg.data"].(string))
+		if err != nil {
+			return err
+		}
+		data.OutputFields["metadata_path"] = hostName
+	}
+	delete(data.OutputFields, "evt.time")
+	return nil
 }

@@ -1,27 +1,40 @@
-package main
+package processors
 
-type FalcoEvent struct {
-	Time         string                 `json:"time"`
-	HostName     string                 `json:"hostname"`
-	Rule         string                 `json:"rule"`
-	OutputFields map[string]interface{} `json:"output_fields"`
-}
+import (
+	"encoding/base64"
+	"fmt"
+)
 
-// processData processes the Falco event data and modifies the event data in place.
+// RetrieveDNSQueryHost retrieves the DNS query host from the data.
 //
-// The input to this function is a pointer to the FalcoEvent struct.
+// The input to this function is a base64 encoded string.
 //
 // An expected usage might be:
 //
-//	if err := processData(&event); err != nil {
-func processData(data *FalcoEvent) error {
-	if data.Rule == "DNS Query Logging" {
-		hostName, err := retrieveDNSQueryHost(data.OutputFields["evt.arg.data"].(string))
-		if err != nil {
-			return err
-		}
-		data.OutputFields["dns_query"] = hostName
+//	hostName, err := RetrieveDNSQueryHost(data)
+func RetrieveDNSQueryHost(data string) (string, error) {
+	payload, err := base64.StdEncoding.DecodeString(data)
+	if err != nil {
+		return "", err
 	}
-	delete(data.OutputFields, "evt.time")
-	return nil
+
+	var domain []byte
+	byteCounter := 13
+	if len(payload) < byteCounter {
+		return "", fmt.Errorf("invalid payload")
+	}
+	wordLen := int(payload[12])
+
+	for {
+		domain = append(domain, payload[byteCounter:byteCounter+wordLen]...)
+		if payload[byteCounter+wordLen] == 0 {
+			break
+		} else {
+			domain = append(domain, '.')
+			byteCounter += wordLen + 1
+			wordLen = int(payload[byteCounter-1])
+		}
+	}
+
+	return string(domain), nil
 }

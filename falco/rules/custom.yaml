@@ -1,0 +1,18 @@
+- rule: Metadata Access
+  desc: Detects access to the VM Metadata Service
+  condition: >
+    ((evt.type = sendto) and
+    (fd.ip = "169.254.169.254") and
+    (fd.port = 80))
+  output: Access to VM Metadata Service by %proc.name (data=%evt.arg.data, cmdline=%proc.cmdline)
+  priority: NOTICE
+  tags: [host, network, mitre_credential_access, T1552.005]
+- rule: DNS Query Logging
+  desc: Logs all outbound DNS queries
+  condition: >
+    ((evt.type = sendmmsg) and
+    (fd.l4proto in (tcp, udp)) and
+    (fd.sport = 53))
+  output: DNS query for %evt.arg.data by %proc.name
+  priority: INFO
+  tags: [host, network]

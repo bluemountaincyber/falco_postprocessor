@@ -5,16 +5,11 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/bluemountaincyber/falco_postprocessor/internal/processors"
 )
 
 var LOGFILE string = "/var/log/falco.json"
-
-type FalcoEvent struct {
-	Time         string                 `json:"time"`
-	HostName     string                 `json:"hostname"`
-	Rule         string                 `json:"rule"`
-	OutputFields map[string]interface{} `json:"output_fields"`
-}
 
 func main() {
 	inputData, err := io.ReadAll(os.Stdin)
@@ -23,13 +18,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	var event FalcoEvent
+	var event processors.FalcoEvent
 	if err := json.Unmarshal(inputData, &event); err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing JSON: %v\n", err)
 		os.Exit(1)
 	}
 
-	if err := processors.processData(&event); err != nil {
+	if err := processors.ProcessData(&event); err != nil {
 		fmt.Fprintf(os.Stderr, "Error processing data: %v\n", err)
 		os.Exit(1)
 	}
