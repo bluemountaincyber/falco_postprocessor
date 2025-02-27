@@ -3,14 +3,15 @@ module github.com/bluemountaincyber/falco_postprocessor
 go 1.24.0
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.17.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.8.2
+	github.com/Azure/azure-sdk-for-go/sdk/monitor/ingestion/azlogs v1.0.0
 	github.com/aws/aws-sdk-go v1.55.6
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
 )
 
 require (
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.17.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.10.0 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v1.3.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
