@@ -20,7 +20,7 @@ The post processor supports the following output (`-o` flag) formats:
 - `json`: The output is written to a JSON file. The file name is specified with the `-f` flag.
 - `none`: The output is discarded.
 - `awslogs`: The output is written to AWS CloudWatch Logs. The log group and stream names are specified with the `-g` and `-s` flags, respectively.
-- `azurelogs`: The output is written to Azure Monitor Logs. The log workspace ID and key are specified with the `-w` and `-k` flags, respectively.
+- `azurelogs`: The output is written to Azure Monitor Logs. The Data Collection Endpoint stream URL is to be specified using the `-d` flag.
 
 ## Usage
 
