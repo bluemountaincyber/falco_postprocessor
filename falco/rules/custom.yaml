@@ -4,7 +4,7 @@
     ((evt.type = sendto) and
     (fd.ip = "169.254.169.254") and
     (fd.port = 80))
-  output: Access to VM Metadata Service by %proc.name (data=%evt.arg.data, cmdline=%proc.cmdline)
+  output: Access to VM Metadata Service by %proc.name (data=%evt.arg.data, cmdline=%proc.cmdline user=%user.name userid=%user.uid)
   priority: NOTICE
   tags: [host, network, mitre_credential_access, T1552.005]
 - rule: DNS Query Logging
@@ -13,6 +13,6 @@
     ((evt.type = sendmmsg) and
     (fd.l4proto in (tcp, udp)) and
     (fd.sport = 53))
-  output: DNS query for %evt.arg.data by %proc.name
+  output: DNS query for %evt.arg.data by %proc.name (cmdline=%proc.cmdline user=%user.name userid=%user.uid)
   priority: INFO
   tags: [host, network]
