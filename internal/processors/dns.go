@@ -19,14 +19,18 @@ func RetrieveDNSQueryHost(data string) (string, error) {
 	}
 
 	var domain []byte
+
 	byteCounter := 13
+
 	if len(payload) < byteCounter {
 		return "", fmt.Errorf("invalid payload")
 	}
+
 	wordLen := int(payload[12])
 
 	for {
 		domain = append(domain, payload[byteCounter:byteCounter+wordLen]...)
+
 		if payload[byteCounter+wordLen] == 0 {
 			break
 		} else {

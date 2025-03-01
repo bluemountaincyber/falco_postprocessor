@@ -59,6 +59,7 @@ func init() {
 	if err != nil {
 		hostname = "falcopostprocessor"
 	}
+
 	rootCmd.Flags().StringP("logfile", "l", "", "The log file to write to")
 	rootCmd.Flags().StringP("output", "o", "stdout", "The output format")
 	rootCmd.Flags().StringP("awslogs-group", "g", "FalcoEvents", "The AWS CloudWatch Logs group")

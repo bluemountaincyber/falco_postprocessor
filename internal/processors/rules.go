@@ -20,15 +20,21 @@ func ProcessData(data *FalcoEvent) error {
 		if err != nil {
 			return err
 		}
+
 		data.OutputFields["dns_query"] = hostName
 	}
+
 	if data.Rule == "Metadata Access" {
 		hostName, err := RetrieveMetadataAccessPath(data.OutputFields["evt.arg.data"].(string))
+
 		if err != nil {
 			return err
 		}
+
 		data.OutputFields["metadata_path"] = hostName
 	}
+
 	delete(data.OutputFields, "evt.time")
+
 	return nil
 }
