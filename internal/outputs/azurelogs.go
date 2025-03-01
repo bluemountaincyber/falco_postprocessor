@@ -24,19 +24,19 @@ func WriteToMonitor(output []byte, stream_url string) error {
 	streamName := strings.Split(strings.Split(stream_url, "/")[6], "?")[0]
 
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get Azure credential: %v", err)
 	}
 
 	client, err := azlogs.NewClient("https://"+endpoint, credential, nil)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create Azure Monitor client: %v", err)
 	}
 
 	var outputMap map[string]interface{}
 
 	if err := json.Unmarshal(output, &outputMap); err != nil {
-		return err
+		return fmt.Errorf("failed to unmarshal output: %v", err)
 	}
 
 	var events []FalcoEvent
@@ -44,7 +44,7 @@ func WriteToMonitor(output []byte, stream_url string) error {
 	outputFieldsJSON, err := json.Marshal(outputMap["output_fields"])
 
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal output fields: %v", err)
 	}
 
 	events = append(events, FalcoEvent{
@@ -55,16 +55,15 @@ func WriteToMonitor(output []byte, stream_url string) error {
 	})
 
 	logs, err := json.Marshal(events)
-	fmt.Println(string(logs))
 
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal logs: %v", err)
 	}
 
 	_, err = client.Upload(context.TODO(), ruleId, streamName, logs, nil)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to upload logs: %v", err)
 	}
 
 	return nil

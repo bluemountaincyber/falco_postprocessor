@@ -1,6 +1,7 @@
 package outputs
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -21,7 +22,7 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 	})
 
 	if err != nil {
-		return err
+		return fmt.Errorf("error creating session: %v", err)
 	}
 
 	svc := cloudwatchlogs.New(sess)
@@ -34,7 +35,7 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 			})
 
 			if err != nil {
-				return err
+				return fmt.Errorf("error creating log group: %v", err)
 			}
 		}
 
@@ -45,7 +46,7 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 			})
 
 			if err != nil {
-				return err
+				return fmt.Errorf("error creating log stream: %v", err)
 			}
 		}
 
@@ -74,5 +75,5 @@ func PutCloudWatchEvent(svc *cloudwatchlogs.CloudWatchLogs, output []byte, group
 		LogStreamName: aws.String(stream),
 	})
 
-	return err
+	return fmt.Errorf("error putting log event: %v", err)
 }

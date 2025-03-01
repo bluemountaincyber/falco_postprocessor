@@ -15,7 +15,7 @@ import (
 func RetrieveDNSQueryHost(data string) (string, error) {
 	payload, err := base64.StdEncoding.DecodeString(data)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("error decoding base64: %v", err)
 	}
 
 	var domain []byte

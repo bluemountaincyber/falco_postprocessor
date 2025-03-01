@@ -2,6 +2,7 @@ package processors
 
 import (
 	"encoding/base64"
+	"fmt"
 	"strings"
 )
 
@@ -16,7 +17,7 @@ func RetrieveMetadataAccessPath(data string) (string, error) {
 	payload, err := base64.StdEncoding.DecodeString(data)
 
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("error decoding base64: %v", err)
 	}
 
 	firstLine := strings.Split(string(payload), "\n")[0]
