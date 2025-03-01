@@ -53,7 +53,7 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-// init initializes the command flags
+// init initializes the command flags.
 func init() {
 	hostname, err := os.Hostname()
 	if err != nil {

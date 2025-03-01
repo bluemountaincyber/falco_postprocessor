@@ -10,7 +10,7 @@ import (
 	"github.com/bluemountaincyber/falco_postprocessor/internal/processors"
 )
 
-// Execute runs the root command
+// Execute runs the root command.
 func Execute() {
 	err := rootCmd.Execute()
 

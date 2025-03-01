@@ -20,7 +20,6 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(region),
 	})
-
 	if err != nil {
 		return fmt.Errorf("error creating session: %v", err)
 	}
@@ -33,7 +32,6 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 			_, err = svc.CreateLogGroup(&cloudwatchlogs.CreateLogGroupInput{
 				LogGroupName: aws.String(group),
 			})
-
 			if err != nil {
 				return fmt.Errorf("error creating log group: %v", err)
 			}
@@ -44,7 +42,6 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 				LogGroupName:  aws.String(group),
 				LogStreamName: aws.String(stream),
 			})
-
 			if err != nil {
 				return fmt.Errorf("error creating log stream: %v", err)
 			}
@@ -58,7 +55,8 @@ func WriteToCloudWatch(output []byte, group string, stream string, region string
 
 // PutCloudWatchEvent puts the output to AWS CloudWatch
 //
-// The input to this function is a pointer to the CloudWatchLogs service, a byte slice representing the output, the log group, and the log stream.
+// The input to this function is a pointer to the CloudWatchLogs service,
+// a byte slice representing the output, the log group, and the log stream.
 //
 // An expected usage might be:
 //
