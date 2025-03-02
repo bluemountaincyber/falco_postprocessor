@@ -14,6 +14,10 @@ import (
 //
 //	path, err := RetrieveMetadataAccessPath(data)
 func RetrieveMetadataAccessPath(data string) (string, error) {
+	if data == "" {
+		return "", fmt.Errorf("data is empty")
+	}
+
 	payload, err := base64.StdEncoding.DecodeString(data)
 
 	if err != nil {
