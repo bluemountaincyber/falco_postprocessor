@@ -33,6 +33,10 @@ plugins:
     library_path: libcloudtrail.so
   - name: json
     library_path: libjson.so
+  - name: container
+    library_path: /usr/share/falco/plugins/libcontainer.so
+    init_config: ""
+    open_params: ""
 time_format_iso_8601: true
 buffer_format_base64: true
 priority: info
